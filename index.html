@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SHIELD financial Fraud Intelligence</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #1f2937;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid #d9dee7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    background: #123b63;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.title h1 {
+    font-size: 18px;
+    color: #163a5f;
+}
+
+.title p {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 3px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #238636;
+}
+
+/* ================= LAYOUT ================= */
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 72px);
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 235px;
+    background: #ffffff;
+    border-right: 1px solid #d9dee7;
+    padding: 20px 12px;
+    position: sticky;
+    top: 72px;
+    height: calc(100vh - 72px);
+}
+
+.sidebar-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8a94a6;
+    padding: 10px 14px;
+}
+
+.nav-item {
+    padding: 12px 14px;
+    margin: 3px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4b5563;
+    transition: 0.2s;
+}
+
+.nav-item:hover {
+    background: #edf3f9;
+    color: #123b63;
+}
+
+.nav-item.active {
+    background: #e8f0f8;
+    color: #123b63;
+    font-weight: 600;
+    border-left: 3px solid #123b63;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 14px;
+    font-size: 11px;
+    color: #8a94a6;
+}
+
+/* ================= MAIN ================= */
+
+.main {
+    flex: 1;
+    padding: 25px;
+    overflow-x: hidden;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-header {
+    margin-bottom: 22px;
+}
+
+.page-header h2 {
+    font-size: 23px;
+    color: #163a5f;
+}
+
+.page-header p {
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    background: white;
+    border: 1px solid #dce1e8;
+    border-radius: 7px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #26384d;
+    margin-bottom: 16px;
+}
+
+/* ================= KPI ================= */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.kpi {
+    background: white;
+    border: 1px solid #dce1e8;
+    border-radius: 7px;
+    padding: 18px;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #737d8c;
+}
+
+.kpi-value {
+    font-size: 28px;
+    color: #173e63;
+    font-weight: 600;
+    margin: 7px 0;
+}
+
+.kpi-change {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* ================= DASHBOARD GRID ================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* ================= TABLE ================= */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th {
+    background: #f7f8fa;
+    color: #596579;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dce1e8;
+}
+
+td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+/* ================= BADGES ================= */
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.critical {
+    background: #fce8e8;
+    color: #b42318;
+}
+
+.high {
+    background: #fff0e0;
+    color: #b54708;
+}
+
+.medium {
+    background: #fff8db;
+    color: #8a6700;
+}
+
+.low {
+    background: #e8f5ec;
+    color: #237a3b;
+}
+
+.review {
+    background: #e8f0f8;
+    color: #24527d;
+}
+
+/* ================= BUTTONS ================= */
+
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.primary {
+    background: #164b78;
+    color: white;
+}
+
+.primary:hover {
+    background: #103b60;
+}
+
+.secondary {
+    background: #edf1f5;
+    color: #344054;
+}
+
+.secondary:hover {
+    background: #e2e7ed;
+}
+
+.danger {
+    background: #b42318;
+    color: white;
+}
+
+.success {
+    background: #237a3b;
+    color: white;
+}
+
+/* ================= SEARCH ================= */
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+input,
+select,
+textarea {
+    border: 1px solid #ccd3dd;
+    border-radius: 5px;
+    padding: 9px 11px;
+    font-family: inherit;
+    font-size: 13px;
+    background: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3973a6;
+    box-shadow: 0 0 0 2px rgba(57,115,166,.1);
+}
+
+.search {
+    flex: 1;
+    min-width: 220px;
+}
+
+/* ================= RISK BAR ================= */
+
+.risk-bar {
+    height: 8px;
+    background: #edf0f4;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 7px;
+}
+
+.risk-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.risk-red {
+    background: #c93636;
+}
+
+.risk-orange {
+    background: #d97706;
+}
+
+.risk-yellow {
+    background: #d0a000;
+}
+
+.risk-green {
+    background: #31924b;
+}
+
+/* ================= ALERT ================= */
+
+.alert-box {
+    border-left: 4px solid #c93636;
+    background: #fff8f8;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.alert-box h4 {
+    color: #8e2525;
+    margin-bottom: 5px;
+}
+
+.alert-box p {
+    font-size: 12px;
+    color: #667085;
+}
+
+/* ================= EVIDENCE ================= */
+
+.evidence {
+    border: 1px solid #e1e5eb;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    overflow: hidden;
+}
+
+.evidence-header {
+    padding: 12px;
+    background: #f8fafc;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.evidence-content {
+    display: none;
+    padding: 12px;
+    font-size: 12px;
+    color: #667085;
+    line-height: 1.6;
+}
+
+.evidence.open .evidence-content {
+    display: block;
+}
+
+/* ================= NETWORK ================= */
+
+.network {
+    height: 420px;
+    background: #fafbfd;
+    border: 1px solid #dce1e8;
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.node {
+    position: absolute;
+    width: 105px;
+    height: 65px;
+    border: 2px solid #527da5;
+    background: white;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: .2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,.05);
+}
+
+.node:hover {
+    transform: scale(1.05);
+    border-color: #123b63;
+}
+
+.node strong {
+    font-size: 12px;
+    color: #163a5f;
+}
+
+.node span {
+    font-size: 10px;
+    color: #7b8492;
+}
+
+.node.main-node {
+    border-color: #b42318;
+}
+
+.line {
+    position: absolute;
+    height: 2px;
+    background: #b7c1cd;
+    transform-origin: left center;
+}
+
+/* ================= PROFILE ================= */
+
+.profile {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+}
+
+.profile-id {
+    background: #f5f7fa;
+    border: 1px solid #dce1e8;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+}
+
+.profile-avatar {
+    width: 65px;
+    height: 65px;
+    margin: auto;
+    border-radius: 50%;
+    background: #e1eaf3;
+    color: #164b78;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,30,40,.35);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: 600px;
+    max-width: 90%;
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.15);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close {
+    cursor: pointer;
+    font-size: 20px;
+    color: #667085;
+}
+
+/* ================= NOTIFICATION ================= */
+
+.notification {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: #163a5f;
+    color: white;
+    padding: 14px 18px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+    font-size: 13px;
+}
+
+.notification.show {
+    display: block;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 1000px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid,
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        padding: 15px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+footer{
+    text-align: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: smaller;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <div class="logo">SH</div>
+
+        <div class="title">
+            <h1>SHIELD</h1>
+            <p>Transaction Risk Assessment and Investigation Platform</p>
+        </div>
+
+    </div>
+
+    <div class="system-status">
+        <span class="status-dot"></span>
+        Monitoring Service Active
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">Operations</div>
+
+    <div class="nav-item active" onclick="showPage('dashboard', this)">
+        Command Centre
+    </div>
+
+    <div class="nav-item" onclick="showPage('transactions', this)">
+        Transaction Review
+    </div>
+
+    <div class="nav-item" onclick="showPage('cases', this)">
+        Case Management
+    </div>
+
+    <div class="nav-item" onclick="showPage('network', this)">
+        Relationship Analysis
+    </div>
+
+    <div class="nav-item" onclick="showPage('accounts', this)">
+        Account Intelligence
+    </div>
+
+    <div class="sidebar-title">Support</div>
+
+    <div class="nav-item" onclick="showPage('assistance', this)">
+        Customer Assistance
+    </div>
+
+    <div class="sidebar-footer">
+        Prototype Environment<br>
+        Version 1.0
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<!-- ================================================= -->
+<!-- DASHBOARD -->
+<!-- ================================================= -->
+
+<section id="dashboard" class="page active">
+
+    <div class="page-header">
+        <h2>Command Centre</h2>
+        <p>Operational overview of transaction monitoring and risk activity.</p>
+    </div>
+
+
+    <div class="kpi-grid">
+
+        <div class="kpi">
+            <div class="kpi-label">Transactions Monitored</div>
+            <div class="kpi-value" id="transactionCount">12,846</div>
+            <div class="kpi-change">Current monitoring period</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Open Alerts</div>
+            <div class="kpi-value" id="alertCount">37</div>
+            <div class="kpi-change">Requires review</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">High Risk Accounts</div>
+            <div class="kpi-value">14</div>
+            <div class="kpi-change">Under enhanced monitoring</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Active Cases</div>
+            <div class="kpi-value">8</div>
+            <div class="kpi-change">Investigation queue</div>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <!-- PRIORITY ALERTS -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Priority Alerts
+            </div>
+
+            <div class="alert-box">
+
+                <h4>Case FCOC-2026-10482</h4>
+
+                <p>
+                    Multiple transactions indicate unusual beneficiary and
+                    device relationships.
+                </p>
+
+                <br>
+
+                <span class="badge critical">CRITICAL</span>
+
+                <button class="secondary"
+                        onclick="openCase('FCOC-2026-10482')">
+                    Review Case
+                </button>
+
+            </div>
+
+
+            <div class="alert-box"
+                 style="border-color:#d97706;background:#fffaf3;">
+
+                <h4 style="color:#9a5b00;">
+                    Case FCOC-2026-10476
+                </h4>
+
+                <p>
+                    Transaction frequency significantly exceeds the
+                    account's historical baseline.
+                </p>
+
+                <br>
+
+                <span class="badge high">HIGH</span>
+
+                <button class="secondary"
+                        onclick="openCase('FCOC-2026-10476')">
+                    Review Case
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RISK DISTRIBUTION -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Risk Distribution
+            </div>
+
+            <p style="font-size:12px;">Critical — 5%</p>
+            <div class="risk-bar">
+                <div class="risk-fill risk-red" style="width:5%"></div>
+            </div>
+
+            <br>
+
+            <p style="font-size:12px;">High — 12%</p>
+            <div class="risk-bar">
+                <div class="risk-fill risk-orange" style="width:12%"></div>
+            </div>
+
+            <br>
+
+            <p style="font-size:12px;">Medium — 23%</p>
+            <div class="risk-bar">
+                <div class="risk-fill risk-yellow" style="width:23%"></div>
+            </div>
+
+            <br>
+
+            <p style="font-size:12px;">Low — 60%</p>
+            <div class="risk-bar">
+                <div class="risk-fill risk-green" style="width:60%"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WATCHLIST -->
+
+    <div class="card">
+
+        <div class="card-title">
+            Account Watchlist
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Account</th>
+                        <th>Risk Score</th>
+                        <th>Risk Level</th>
+                        <th>Primary Indicator</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr onclick="showAccount('ACC-10482')">
+                        <td>ACC-10482</td>
+                        <td>92 / 100</td>
+                        <td>
+                            <span class="badge critical">
+                                Critical
+                            </span>
+                        </td>
+                        <td>Shared beneficiary and device</td>
+                        <td>
+                            <span class="badge review">
+                                Under Review
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr onclick="showAccount('ACC-10831')">
+                        <td>ACC-10831</td>
+                        <td>81 / 100</td>
+                        <td>
+                            <span class="badge high">
+                                High
+                            </span>
+                        </td>
+                        <td>Transaction velocity</td>
+                        <td>
+                            <span class="badge review">
+                                Monitoring
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr onclick="showAccount('ACC-11027')">
+                        <td>ACC-11027</td>
+                        <td>64 / 100</td>
+                        <td>
+                            <span class="badge medium">
+                                Medium
+                            </span>
+                        </td>
+                        <td>Location deviation</td>
+                        <td>
+                            <span class="badge low">
+                                Monitored
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- TRANSACTIONS -->
+<!-- ================================================= -->
+
+<section id="transactions" class="page">
+
+    <div class="page-header">
+
+        <h2>Transaction Review</h2>
+
+        <p>
+            Search, filter and investigate transactions identified
+            through monitoring rules.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <input
+                class="search"
+                id="transactionSearch"
+                placeholder="Search transaction, account or beneficiary..."
+                onkeyup="filterTransactions()"
+            >
+
+            <select id="riskFilter"
+                    onchange="filterTransactions()">
+
+                <option value="ALL">All Risk Levels</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+
+            </select>
+
+            <button class="primary"
+                    onclick="openImport()">
+                Import Transactions
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table id="transactionTable">
+
+                <thead>
+
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Account</th>
+                        <th>Amount</th>
+                        <th>Beneficiary</th>
+                        <th>Risk Score</th>
+                        <th>Risk Level</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>TXN-84921</td>
+                        <td>ACC-10482</td>
+                        <td>₹48,500</td>
+                        <td>BEN-7712</td>
+                        <td>92</td>
+                        <td>
+                            <span class="badge critical">Critical</span>
+                        </td>
+                        <td>
+                            <button class="secondary"
+                            onclick="viewTransaction('TXN-84921')">
+                                Investigate
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>TXN-84920</td>
+                        <td>ACC-10831</td>
+                        <td>₹21,700</td>
+                        <td>BEN-3108</td>
+                        <td>81</td>
+                        <td>
+                            <span class="badge high">High</span>
+                        </td>
+                        <td>
+                            <button class="secondary"
+                            onclick="viewTransaction('TXN-84920')">
+                                Investigate
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>TXN-84919</td>
+                        <td>ACC-11027</td>
+                        <td>₹8,200</td>
+                        <td>BEN-4521</td>
+                        <td>64</td>
+                        <td>
+                            <span class="badge medium">Medium</span>
+                        </td>
+                        <td>
+                            <button class="secondary"
+                            onclick="viewTransaction('TXN-84919')">
+                                Investigate
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>TXN-84918</td>
+                        <td>ACC-10311</td>
+                        <td>₹2,100</td>
+                        <td>BEN-2114</td>
+                        <td>22</td>
+                        <td>
+                            <span class="badge low">Low</span>
+                        </td>
+                        <td>
+                            <button class="secondary"
+                            onclick="viewTransaction('TXN-84918')">
+                                Investigate
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- CASE MANAGEMENT -->
+<!-- ================================================= -->
+
+<section id="cases" class="page">
+
+    <div class="page-header">
+
+        <h2>Case Management</h2>
+
+        <p>
+            Review evidence, record investigator decisions and maintain
+            an auditable investigation trail.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="profile">
+
+            <div class="profile-id">
+
+                <div class="profile-avatar">
+                    FC
+                </div>
+
+                <strong>FCOC-2026-10482</strong>
+
+                <p style="font-size:11px;color:#777;margin-top:5px;">
+                    Priority Investigation
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3 style="color:#163a5f;margin-bottom:10px;">
+                    Suspicious Relationship Activity
+                </h3>
+
+                <p style="font-size:13px;color:#667085;line-height:1.6;">
+                    Several transactions connect the account to a
+                    common beneficiary and device identifier.
+                    The relationship requires manual investigation.
+                </p>
+
+                <br>
+
+                <span class="badge critical">
+                    CRITICAL
+                </span>
+
+                <span class="badge review">
+                    OPEN
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="two-column">
+
+        <div class="card">
+
+            <div class="card-title">
+                Evidence Assessment
+            </div>
+
+
+            <div class="evidence">
+
+                <div class="evidence-header"
+                     onclick="toggleEvidence(this)">
+                    <strong>IND-01 — Transaction Deviation</strong>
+                    <span>+</span>
+                </div>
+
+                <div class="evidence-content">
+
+                    Transaction value is significantly above
+                    the account's normal transaction range.
+
+                    <br><br>
+
+                    Historical baseline:
+                    ₹4,000 – ₹9,000
+
+                    <br>
+
+                    Observed transaction:
+                    ₹48,500
+
+                </div>
+
+            </div>
+
+
+            <div class="evidence">
+
+                <div class="evidence-header"
+                     onclick="toggleEvidence(this)">
+                    <strong>IND-02 — Device Relationship</strong>
+                    <span>+</span>
+                </div>
+
+                <div class="evidence-content">
+
+                    Device identifier DEV-771 appears across
+                    multiple accounts under review.
+
+                </div>
+
+            </div>
+
+
+            <div class="evidence">
+
+                <div class="evidence-header"
+                     onclick="toggleEvidence(this)">
+                    <strong>IND-03 — Beneficiary Relationship</strong>
+                    <span>+</span>
+                </div>
+
+                <div class="evidence-content">
+
+                    Beneficiary BEN-7712 is associated with
+                    multiple accounts showing unusual activity.
+
+                </div>
+
+            </div>
+
+
+            <div class="evidence">
+
+                <div class="evidence-header"
+                     onclick="toggleEvidence(this)">
+                    <strong>IND-04 — Transaction Velocity</strong>
+                    <span>+</span>
+                </div>
+
+                <div class="evidence-content">
+
+                    Four transactions occurred within a short
+                    period compared with the account's historical
+                    activity.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Investigation Decision
+            </div>
+
+            <label>Disposition</label>
+
+            <select id="decision"
+                    style="width:100%;margin-top:7px;">
+
+                <option>Pending Review</option>
+                <option>Clear</option>
+                <option>Monitor</option>
+                <option>Escalate</option>
+
+            </select>
+
+            <br><br>
+
+            <label>Investigator Notes</label>
+
+            <textarea
+                id="investigatorNotes"
+                rows="7"
+                style="width:100%;margin-top:7px;"
+                placeholder="Enter investigation observations..."></textarea>
+
+            <br><br>
+
+            <button class="primary"
+                    onclick="saveCase()">
+                Save Investigation
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- NETWORK -->
+<!-- ================================================= -->
+
+<section id="network" class="page">
+
+    <div class="page-header">
+
+        <h2>Relationship Analysis</h2>
+
+        <p>
+            Examine relationships between accounts, beneficiaries and
+            device identifiers.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <select onchange="changeNetwork(this.value)">
+
+                <option value="all">
+                    All Relationships
+                </option>
+
+                <option value="accounts">
+                    Account Relationships
+                </option>
+
+                <option value="devices">
+                    Shared Devices
+                </option>
+
+                <option value="beneficiaries">
+                    Shared Beneficiaries
+                </option>
+
+            </select>
+
+            <button class="secondary"
+                    onclick="resetNetwork()">
+                Reset View
+            </button>
+
+        </div>
+
+
+        <div class="network" id="networkGraph">
+
+            <div class="node main-node"
+                 style="left:40%;top:40%;"
+                 onclick="showNode('ACC-10482')">
+
+                <strong>ACC-10482</strong>
+                <span>Primary Account</span>
+
+            </div>
+
+
+            <div class="node"
+                 style="left:12%;top:20%;"
+                 onclick="showNode('ACC-10831')">
+
+                <strong>ACC-10831</strong>
+                <span>Account</span>
+
+            </div>
+
+
+            <div class="node"
+                 style="left:72%;top:20%;"
+                 onclick="showNode('BEN-7712')">
+
+                <strong>BEN-7712</strong>
+                <span>Beneficiary</span>
+
+            </div>
+
+
+            <div class="node"
+                 style="left:15%;top:70%;"
+                 onclick="showNode('DEV-771')">
+
+                <strong>DEV-771</strong>
+                <span>Device</span>
+
+            </div>
+
+
+            <div class="node"
+                 style="left:72%;top:70%;"
+                 onclick="showNode('ACC-11027')">
+
+                <strong>ACC-11027</strong>
+                <span>Account</span>
+
+            </div>
+
+
+            <div class="line"
+                 style="
+                 width:260px;
+                 left:32%;
+                 top:45%;
+                 transform:rotate(-29deg);
+                 ">
+            </div>
+
+
+            <div class="line"
+                 style="
+                 width:270px;
+                 left:50%;
+                 top:47%;
+                 transform:rotate(-28deg);
+                 ">
+            </div>
+
+
+            <div class="line"
+                 style="
+                 width:220px;
+                 left:32%;
+                 top:55%;
+                 transform:rotate(28deg);
+                 ">
+            </div>
+
+
+            <div class="line"
+                 style="
+                 width:230px;
+                 left:50%;
+                 top:55%;
+                 transform:rotate(28deg);
+                 ">
+            </div>
+
+        </div>
+
+        <p style="font-size:11px;color:#7b8492;margin-top:12px;">
+            Relationship indicators represent analytical associations
+            and do not independently establish wrongdoing.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ACCOUNT INTELLIGENCE -->
+<!-- ================================================= -->
+
+<section id="accounts" class="page">
+
+    <div class="page-header">
+
+        <h2>Account Intelligence</h2>
+
+        <p>
+            Review account behaviour against historical activity.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <input
+                class="search"
+                id="accountSearch"
+                placeholder="Search account..."
+                onkeyup="filterAccounts()"
+            >
+
+        </div>
+
+
+        <table id="accountTable">
+
+            <thead>
+
+                <tr>
+                    <th>Account</th>
+                    <th>Average Transaction</th>
+                    <th>Current Transaction</th>
+                    <th>Velocity</th>
+                    <th>Risk Score</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>ACC-10482</td>
+                    <td>₹6,200</td>
+                    <td>₹48,500</td>
+                    <td>High</td>
+                    <td>92</td>
+                    <td>
+                        <span class="badge critical">
+                            Critical
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ACC-10831</td>
+                    <td>₹7,400</td>
+                    <td>₹21,700</td>
+                    <td>High</td>
+                    <td>81</td>
+                    <td>
+                        <span class="badge high">
+                            High
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ACC-11027</td>
+                    <td>₹5,900</td>
+                    <td>₹8,200</td>
+                    <td>Normal</td>
+                    <td>64</td>
+                    <td>
+                        <span class="badge medium">
+                            Medium
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ACC-10311</td>
+                    <td>₹3,800</td>
+                    <td>₹2,100</td>
+                    <td>Normal</td>
+                    <td>22</td>
+                    <td>
+                        <span class="badge low">
+                            Low
+                        </span>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Behavioural Assessment
+        </div>
+
+        <p style="font-size:13px;line-height:1.7;color:#667085;">
+
+            The account assessment compares current activity against
+            historical behaviour. A high transaction value alone does
+            not automatically indicate fraud. Additional indicators,
+            account history and relationship evidence should be
+            considered before escalation.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- CUSTOMER ASSISTANCE -->
+<!-- ================================================= -->
+
+<section id="assistance" class="page">
+
+    <div class="page-header">
+
+        <h2>Customer Assistance</h2>
+
+        <p>
+            Guidance for customers affected by a suspicious transaction
+            or account security concern.
+        </p>
+
+    </div>
+
+
+    <div class="two-column">
+
+        <div class="card">
+
+            <div class="card-title">
+                Transaction Concern
+            </div>
+
+            <p style="font-size:13px;line-height:1.7;color:#667085;">
+
+                If a transaction was not authorised by the account
+                holder, the customer should immediately contact the
+                financial institution through its verified official
+                support channel.
+
+            </p>
+
+            <br>
+
+            <button class="primary"
+                    onclick="showNotification('Customer support guidance displayed.')">
+                View Procedure
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Account Security
+            </div>
+
+            <p style="font-size:13px;line-height:1.7;color:#667085;">
+
+                Customers should review recent transactions,
+                protect account credentials and report activity
+                they do not recognise.
+
+            </p>
+
+            <br>
+
+            <button class="secondary"
+                    onclick="showNotification('Security guidance displayed.')">
+                View Safety Guidance
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Recommended Operational Actions
+        </div>
+
+        <table>
+
+            <tr>
+                <td>1</td>
+                <td>Verify the transaction with the account holder.</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>Review recent account activity.</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>Check beneficiary and device relationships.</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>Document the investigation decision.</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>Escalate only when sufficient evidence exists.</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+
+</main>
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3 id="modalTitle">
+                Transaction Investigation
+            </h3>
+
+            <span class="close"
+                  onclick="closeModal()">
+                ×
+            </span>
+
+        </div>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= NOTIFICATION ================= -->
+
+<div class="notification" id="notification">
+    Operation completed.
+</div>
+
+
+<script>
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(pageId, element) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    if(element) {
+        element.classList.add("active");
+    }
+}
+
+
+/* =====================================================
+   TRANSACTION SEARCH
+===================================================== */
+
+function filterTransactions() {
+
+    const search =
+        document.getElementById("transactionSearch")
+        .value.toLowerCase();
+
+    const risk =
+        document.getElementById("riskFilter").value;
+
+    const rows =
+        document.querySelectorAll("#transactionTable tbody tr");
+
+    rows.forEach(row => {
+
+        const text =
+            row.innerText.toLowerCase();
+
+        const riskText =
+            row.cells[5].innerText.toUpperCase();
+
+        const searchMatch =
+            text.includes(search);
+
+        const riskMatch =
+            risk === "ALL" ||
+            riskText.includes(risk);
+
+        row.style.display =
+            searchMatch && riskMatch
+            ? ""
+            : "none";
+
+    });
+}
+
+
+/* =====================================================
+   ACCOUNT SEARCH
+===================================================== */
+
+function filterAccounts() {
+
+    const search =
+        document.getElementById("accountSearch")
+        .value.toLowerCase();
+
+    document.querySelectorAll("#accountTable tbody tr")
+    .forEach(row => {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(search)
+            ? ""
+            : "none";
+
+    });
+}
+
+
+/* =====================================================
+   TRANSACTION INVESTIGATION
+===================================================== */
+
+function viewTransaction(id) {
+
+    document.getElementById("modalTitle").innerText =
+        "Transaction Investigation — " + id;
+
+    document.getElementById("modalContent").innerHTML = `
+
+        <div class="card" style="margin:0;">
+
+            <p><strong>Transaction:</strong> ${id}</p>
+
+            <p><strong>Account:</strong> ACC-10482</p>
+
+            <p><strong>Amount:</strong> ₹48,500</p>
+
+            <p><strong>Beneficiary:</strong> BEN-7712</p>
+
+            <p><strong>Risk Score:</strong> 92 / 100</p>
+
+            <br>
+
+            <h4 style="color:#163a5f;">
+                Risk Assessment
+            </h4>
+
+            <br>
+
+            <p style="font-size:13px;line-height:1.7;color:#667085;">
+
+                The transaction differs significantly from the
+                account's historical transaction range and is
+                associated with other monitored relationships.
+
+            </p>
+
+            <br>
+
+            <button class="success"
+                    onclick="takeAction('Transaction marked for monitoring.')">
+                Monitor
+            </button>
+
+            <button class="danger"
+                    onclick="takeAction('Transaction escalated for review.')">
+                Escalate
+            </button>
+
+            <button class="secondary"
+                    onclick="takeAction('Transaction cleared.')">
+                Clear
+            </button>
+
+        </div>
+    `;
+
+    document.getElementById("modal").classList.add("active");
+}
+
+
+/* =====================================================
+   CASE
+===================================================== */
+
+function openCase(caseId) {
+
+    showPage("cases");
+
+    document.querySelectorAll(".nav-item")
+    .forEach(item => item.classList.remove("active"));
+
+    showNotification(
+        "Opened investigation " + caseId
+    );
+}
+
+
+/* =====================================================
+   ACCOUNT
+===================================================== */
+
+function showAccount(account) {
+
+    showPage("accounts");
+
+    showNotification(
+        "Account " + account + " selected."
+    );
+}
+
+
+/* =====================================================
+   NETWORK NODE
+===================================================== */
+
+function showNode(node) {
+
+    document.getElementById("modalTitle").innerText =
+        "Relationship Detail";
+
+    document.getElementById("modalContent").innerHTML = `
+
+        <p>
+            <strong>Identifier:</strong> ${node}
+        </p>
+
+        <br>
+
+        <p style="font-size:13px;line-height:1.7;color:#667085;">
+
+            This relationship is displayed because the identifier
+            is associated with monitored transaction activity.
+            The relationship should be evaluated together with
+            transaction history and other available evidence.
+
+        </p>
+
+        <br>
+
+        <button class="primary"
+                onclick="closeModal()">
+            Close
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("active");
+}
+
+
+/* =====================================================
+   NETWORK FILTER
+===================================================== */
+
+function changeNetwork(type) {
+
+    const nodes =
+        document.querySelectorAll(".node");
+
+    nodes.forEach(node => {
+
+        if(type === "all") {
+
+            node.style.opacity = "1";
+
+        } else if(type === "accounts") {
+
+            node.style.opacity =
+                node.innerText.includes("Account") ||
+                node.innerText.includes("Primary")
+                ? "1"
+                : ".25";
+
+        } else if(type === "devices") {
+
+            node.style.opacity =
+                node.innerText.includes("Device")
+                ? "1"
+                : ".25";
+
+        } else if(type === "beneficiaries") {
+
+            node.style.opacity =
+                node.innerText.includes("Beneficiary")
+                ? "1"
+                : ".25";
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   RESET NETWORK
+===================================================== */
+
+function resetNetwork() {
+
+    document.querySelectorAll(".node")
+    .forEach(node => node.style.opacity = "1");
+
+    showNotification("Relationship view reset.");
+}
+
+
+/* =====================================================
+   EVIDENCE
+===================================================== */
+
+function toggleEvidence(element) {
+
+    const evidence =
+        element.parentElement;
+
+    evidence.classList.toggle("open");
+
+}
+
+
+/* =====================================================
+   SAVE CASE
+===================================================== */
+
+function saveCase() {
+
+    const decision =
+        document.getElementById("decision").value;
+
+    const notes =
+        document.getElementById("investigatorNotes").value;
+
+    if(notes.trim() === "") {
+
+        showNotification(
+            "Investigator notes are required."
+        );
+
+        return;
+    }
+
+    showNotification(
+        "Investigation saved: " + decision
+    );
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal() {
+
+    document.getElementById("modal")
+    .classList.remove("active");
+
+}
+
+
+/* =====================================================
+   ACTION
+===================================================== */
+
+function takeAction(message) {
+
+    closeModal();
+
+    showNotification(message);
+
+}
+
+
+/* =====================================================
+   IMPORT TRANSACTIONS
+===================================================== */
+
+function openImport() {
+
+    document.getElementById("modalTitle").innerText =
+        "Import Transaction Data";
+
+    document.getElementById("modalContent").innerHTML = `
+
+        <p style="font-size:13px;color:#667085;">
+
+            Select a CSV file containing transaction records.
+            This prototype can be extended to calculate risk
+            scores directly from imported data.
+
+        </p>
+
+        <br>
+
+        <input type="file"
+               id="csvFile"
+               accept=".csv"
+               style="width:100%;">
+
+        <br><br>
+
+        <button class="primary"
+                onclick="processCSV()">
+            Process File
+        </button>
+
+    `;
+
+    document.getElementById("modal").classList.add("active");
+}
+
+
+/* =====================================================
+   CSV PROCESSING
+===================================================== */
+
+function processCSV() {
+
+    const file =
+        document.getElementById("csvFile").files[0];
+
+    if(!file) {
+
+        showNotification(
+            "Please select a CSV file."
+        );
+
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const lines =
+            event.target.result.split("\n");
+
+        showNotification(
+            lines.length - 1 +
+            " transaction records loaded."
+        );
+
+        closeModal();
+
+    };
+
+    reader.readAsText(file);
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+function showNotification(message) {
+
+    const notification =
+        document.getElementById("notification");
+
+    notification.innerText = message;
+
+    notification.classList.add("show");
+
+    setTimeout(() => {
+
+        notification.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+===================================================== */
+
+document.getElementById("modal")
+.addEventListener("click", function(event) {
+
+    if(event.target === this) {
+        closeModal();
+    }
+
+});
+
+</script>
+<footer>
+    <p>&copy; 2026 SHIELD. All Rights Reserved.</p>
+    <p>Developed as an Academic Project Prototype.</p>
+</footer>
+
+</body>
+</html>
